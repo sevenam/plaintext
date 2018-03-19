@@ -26,7 +26,7 @@ namespace plaintext
 		{
 			InitializeComponent();
 			Hide();
-			var hotkey = new HotkeyService(Key.Escape, KeyModifier.Shift, OnHotKeyHandler);
+			var hotkey = new HotkeyService(Key.Escape, KeyModifier.Shift, OnHotKeyHandler); //todo: would like this to use Win+V - but not working on mac at least
 		}
 
 		private void OnHotKeyHandler(HotkeyService hotKey)
