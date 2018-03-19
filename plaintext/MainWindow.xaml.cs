@@ -1,6 +1,7 @@
 ﻿using plaintext.services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +25,17 @@ namespace plaintext
 		public MainWindow()
 		{
 			InitializeComponent();
-			GetTextFromClipboard();
+			Hide();
+			var hotkey = new HotkeyService(Key.Escape, KeyModifier.Shift, OnHotKeyHandler);
 		}
 
-		public void GetTextFromClipboard()
+		private void OnHotKeyHandler(HotkeyService hotKey)
 		{
 			var clipboardService = new ClipboardService();
-			var test = clipboardService.GetText();
-			
+			var text = clipboardService.GetText();
+			Debug.WriteLine($"clipboard data:" + text);
+
 		}
+
 	}
 }
