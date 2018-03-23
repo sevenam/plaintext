@@ -19,5 +19,10 @@ namespace plaintext.services
 			return Clipboard.GetText();
 		}
 
+		public void SetText(string text)
+		{
+			Clipboard.SetText(text);
+		}
+
 	}
 }
