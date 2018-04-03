@@ -22,23 +22,38 @@ namespace plaintext
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window
-	{
+    {
+        private InputSimulator inputSimulator;
+        private ClipboardService clipboardService;
+
 		public MainWindow()
 		{
 			InitializeComponent();
 			Hide();
-			var hotkey = new HotkeyService(Key.Escape, KeyModifier.Win, OnHotKeyHandler); //todo: would like this to use Win+V - but not working on mac at least
+
+            var pasteHotkey = new HotkeyService(Key.Escape, KeyModifier.Win, OnPaste);
+            inputSimulator = new InputSimulator();
+            clipboardService = new ClipboardService();
+
+            if (!pasteHotkey.SuccessfullyRegistered)
+            {
+                MessageBox.Show("Failed to register hotkey. Must be changed in config.");
+            }
+
 		}
 
-		private void OnHotKeyHandler(HotkeyService hotKey)
-		{
-			var clipboardService = new ClipboardService();
-			var text = clipboardService.GetText();
-            clipboardService.SetText(text);
-			Debug.WriteLine($"clipboard data:" + text);
-            var test = new InputSimulator();
-            test.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, WindowsInput.Native.VirtualKeyCode.INSERT);
+        private void OnPaste(HotkeyService hotKey)
+        {
+            clipboardService = new ClipboardService();
+            var originalText = clipboardService.GetText(true);
+            var text = clipboardService.GetText();
+            
+            Debug.WriteLine($"Trying to paste: {text}");
+            //clipboardService.SetText(text);
 
+            inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, WindowsInput.Native.VirtualKeyCode.INSERT);
+
+            clipboardService.SetText(originalText, formatted: true);
         }
 
 	}
