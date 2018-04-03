@@ -20,6 +20,7 @@ namespace plaintext.services
 		public Key Key { get; private set; }
 		public KeyModifier KeyModifiers { get; private set; }
 		public Action<HotkeyService> Action { get; private set; }
+		public bool SuccessfullyRegistered { get; private set; }
 		public int Id { get; set; }
 
 		public HotkeyService(Key key, KeyModifier keyModifiers, Action<HotkeyService> action, bool register = true)
@@ -29,7 +30,7 @@ namespace plaintext.services
 			Action = action;
 			if (register)
 			{
-				Register();
+				SuccessfullyRegistered = Register();
 			}
 		}
 
