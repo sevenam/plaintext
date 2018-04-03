@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+using NUnit.Framework;
 using plaintext.services;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shouldly;
+
 
 namespace plaintext.tests
 {
@@ -21,9 +23,12 @@ namespace plaintext.tests
 		}
 
 		[Test]
+		[Apartment(ApartmentState.STA)]
 		public void TestClipboardServiceGetText()
 		{
-			//var text = clipboardService.GetText();
+			var text = clipboardService.GetText();
+
+
 		}
 	}
 }
