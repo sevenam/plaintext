@@ -89,6 +89,7 @@ namespace plaintext.services
 				if (disposing)
 				{
 					Unregister();
+					SuccessfullyRegistered = false;
 				}
 
 				disposed = true;
