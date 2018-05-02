@@ -22,39 +22,39 @@ namespace plaintext
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window
-    {
-        private InputSimulator inputSimulator;
-        private ClipboardService clipboardService;
+	{
+		private InputSimulator inputSimulator;
+		private ClipboardService clipboardService;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			Hide();
 
-            var pasteHotkey = new HotkeyService(Key.Escape, KeyModifier.Win, OnPaste);
-            inputSimulator = new InputSimulator();
-            clipboardService = new ClipboardService();
+			var pasteHotkey = new HotkeyService(Key.Escape, KeyModifier.Win, OnPaste);
+			inputSimulator = new InputSimulator();
+			clipboardService = new ClipboardService();
 
-            if (!pasteHotkey.SuccessfullyRegistered)
-            {
-                MessageBox.Show("Failed to register hotkey. Must be changed in config.");
-            }
+			if (!pasteHotkey.SuccessfullyRegistered)
+			{
+				MessageBox.Show("Failed to register hotkey. Must be changed in config.");
+			}
 
 		}
 
-        private void OnPaste(HotkeyService hotKey)
-        {
-            clipboardService = new ClipboardService();
-            var originalText = clipboardService.GetText(true);
-            var text = clipboardService.GetText();
-            
-            Debug.WriteLine($"Trying to paste: {text}");
-            //clipboardService.SetText(text);
+		private void OnPaste(HotkeyService hotKey)
+		{
+			clipboardService = new ClipboardService();
+			var originalText = clipboardService.GetText(true);
+			var text = clipboardService.GetText();
+			
+			Debug.WriteLine($"Trying to paste: {text}");
+			//clipboardService.SetText(text);
 
-            inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, WindowsInput.Native.VirtualKeyCode.INSERT);
+			inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, WindowsInput.Native.VirtualKeyCode.INSERT);
 
-            clipboardService.SetText(originalText, formatted: true);
-        }
+			clipboardService.SetText(originalText, formatted: true);
+		}
 
 	}
 }
