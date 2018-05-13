@@ -62,6 +62,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\plaintext.infrastructure\plaintext.infrastructure.csproj">
+      <Project>{ed28b9a0-b0aa-490d-80c6-0e5daf916f70}</Project>
+      <Name>plaintext.infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\plaintext\plaintext.ui.csproj">
       <Project>{210a721d-d877-4f12-a971-bde39de3ec16}</Project>
       <Name>plaintext.ui</Name>

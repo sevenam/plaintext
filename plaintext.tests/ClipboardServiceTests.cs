@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using NUnit.Framework;
-using plaintext.services;
 using Shouldly;
+using plaintext.infrastructure;
 
 namespace plaintext.tests
 {
