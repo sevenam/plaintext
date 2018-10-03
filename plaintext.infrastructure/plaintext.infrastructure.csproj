@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ClipboardService.cs" />
     <Compile Include="HotkeyService.cs" />
+    <Compile Include="HotkeyServiceEventArgs.cs" />
     <Compile Include="IHotkeyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
