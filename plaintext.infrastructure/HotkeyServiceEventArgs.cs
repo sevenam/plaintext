@@ -1,5 +1,4 @@
-﻿using NHotkey;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,15 +17,15 @@ namespace plaintext.infrastructure
             return Equals(other);
         }
 
-        public static explicit operator HotkeyEventArgs(HotkeyServiceEventArgs hotkeyServiceEventArgs)
-        {
-            //Name property is read only and constructor is complaining about 0 arguments
-            //also... can't set hotkeyEventArgs.Name as it is readonly
+        //public static explicit operator HotkeyEventArgs(HotkeyServiceEventArgs hotkeyServiceEventArgs)
+        //{
+        //    //Name property is read only and constructor is complaining about 0 arguments
+        //    //also... can't set hotkeyEventArgs.Name as it is readonly
 
-            HotkeyEventArgs hotkeyEventArgs;
-            hotkeyEventArgs.Name = hotkeyServiceEventArgs.Name;
+        //    HotkeyEventArgs hotkeyEventArgs;
+        //    hotkeyEventArgs.Name = hotkeyServiceEventArgs.Name;
 
-            return hotkeyEventArgs;
-        }
+        //    return hotkeyEventArgs;
+        //}
     }
 }

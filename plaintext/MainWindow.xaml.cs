@@ -1,7 +1,4 @@
-﻿//using NHotkey;
-//using NHotkey.Wpf;
-using plaintext.services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//using WindowsInput;
+using WindowsInput;
 using plaintext.infrastructure;
 
 namespace plaintext.ui
@@ -26,27 +23,31 @@ namespace plaintext.ui
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		//private InputSimulator inputSimulator;
-		private ClipboardService clipboardService;
+        private InputSimulator inputSimulator = new InputSimulator();
+        private ClipboardService clipboardService;
+        private HotkeyService hotkeyService = new HotkeyService();
+        private Action action;
 
 		public MainWindow()
 		{
             InitializeComponent();
             Hide();
-
-            //HotkeyService.Register(Key.Escape, ModifierKeys.Windows, OnPaste, "win-escape");
+            var modifierKeys = new ModifierKeys[] { ModifierKeys.Windows};
+            action = () => { OnPaste(); };
+            var guid = hotkeyService.Register(modifierKeys, Key.Escape, action);
+            
             //try
             //{
-            //    HotkeyManager.Current.AddOrReplace("win-escape", Key.L, ModifierKeys.Windows, OnPaste); //todo: can this be made into a service? see code line above
+                
             //}
-            //catch(NHotkey.HotkeyAlreadyRegisteredException)
+            //catch
             //{
             //    MessageBox.Show("Failed to register hotkey. Must be changed in config.");
             //}
-            
+
 
             //inputSimulator = new InputSimulator();
-			clipboardService = new ClipboardService();
+            clipboardService = new ClipboardService();
 
             //TODO: need error if fails to register:
 			//if (!pasteHotkey.SuccessfullyRegistered)
@@ -56,19 +57,19 @@ namespace plaintext.ui
 
 		}
 
-		//private void OnPaste(object sender, HotkeyEventArgs eventArgs)
-		//{
-		//	clipboardService = new ClipboardService();
-		//	var originalText = clipboardService.GetText(true);
-		//	var text = clipboardService.GetText();
+        private void OnPaste()
+        {
+            clipboardService = new ClipboardService();
+            var originalText = clipboardService.GetText(true);
+            var text = clipboardService.GetText();
 
-		//	Debug.WriteLine($"Trying to paste: {text}");
-  //          //clipboardService.SetText(text);
+            Debug.WriteLine($"Trying to paste: {text}");
+            //clipboardService.SetText(text);
 
-  //          inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, WindowsInput.Native.VirtualKeyCode.INSERT);
-
-		//	clipboardService.SetText(originalText, formatted: true);
-		//}
+            inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, WindowsInput.Native.VirtualKeyCode.INSERT);
+            
+            clipboardService.SetText(originalText, formatted: true);
+        }
 
     }
 }

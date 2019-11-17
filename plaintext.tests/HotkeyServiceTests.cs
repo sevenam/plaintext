@@ -3,49 +3,52 @@ using System.Windows.Input;
 using Shouldly;
 using System.Threading;
 using plaintext.infrastructure;
+using System;
+using System.Diagnostics;
+using WindowsInput;
 
 namespace plaintext.tests
 {
     [TestFixture]
     public class HotkeyServiceTests
     {
+        private IHotkeyService hotkeyService;
         private Key key;
-        private ModifierKeys modifierKeys;
-        private bool eventExecuted;
+        private readonly ModifierKeys[] modifierKeys = new ModifierKeys[1];
 
         [SetUp]
         public void SetUp()
         {
             key = Key.Escape;
-            modifierKeys = ModifierKeys.Windows;
+            modifierKeys[0] = ModifierKeys.Windows;
+            hotkeyService = new HotkeyService();
         }
 
         [Test]
         public void TestHotKeyServiceInit()
         {
-            HotkeyService.Register(key, modifierKeys, HotkeyEvent, "hotkeyEvent");
+            hotkeyService.Register(modifierKeys,key, HotkeyEvent);
+        }
+
+        [Test]
+        public void TestHotKeyServiceUnregisterAll()
+        {
+            hotkeyService.UnregisterAll();
         }
 
         [Test, Apartment(ApartmentState.STA)]
         public void TestHotkeyServiceExecuteKeyPress()
         {
+            hotkeyService.UnregisterAll();
             //todo: this test isn't working. doesn't seem to respond to the simulated key press
-            //var hotkeyService = new HotkeyService();
-            //hotkeyService.Register(key, modifierKeys, HotkeyEvent, "hotkeyEvent");
-            //HotkeyManager.Current.AddOrReplace("shiftescape", Key.Escape, ModifierKeys.Windows, HotkeyEvent);
-            //var inputSimulator = new InputSimulator();
-
-            //eventExecuted.ShouldBeFalse();
-            //inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.RWIN, WindowsInput.Native.VirtualKeyCode.ESCAPE);
-            //eventExecuted.ShouldBeTrue();
-
+            var guid = hotkeyService.Register(modifierKeys, key, HotkeyEvent);
+            var inputSimulator = new InputSimulator();
+            inputSimulator.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.LWIN, WindowsInput.Native.VirtualKeyCode.ESCAPE);
+            Console.WriteLine("guid -->" + guid);
         }
 
 
-        private void HotkeyEvent(object sender, HotkeyServiceEventArgs e)
-        {
-            eventExecuted = true;
-        }
+        private readonly Action HotkeyEvent = delegate() { Process.Start("CMD.exe"); };
 
     }
 }

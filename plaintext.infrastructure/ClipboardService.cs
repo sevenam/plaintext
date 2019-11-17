@@ -11,9 +11,8 @@ namespace plaintext.infrastructure
 
 		public string GetText(bool formatted = false)
 		{
-			var text = string.Empty;
-
-			if(formatted)
+            string text;
+            if (formatted)
 			{
 				text = Clipboard.GetText(TextDataFormat.Rtf);
 			}

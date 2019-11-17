@@ -7,14 +7,14 @@ using System.Windows.Input;
 
 namespace plaintext.infrastructure
 {
-    interface IHotkeyService
+    public interface IHotkeyService
     {
-        bool Register();
-        void Unregister();
-        Key Key { get; }
-        bool SuccessfullyRegistered { get; }
-        int Id { get; set; }
-
+        Guid Register(ModifierKeys[] modifiers, Key virtualKeyCode, Action action);
+        //void Unregister();
+        //Key Key { get; }
+        //bool SuccessfullyRegistered { get; }
+        //int Id { get; set; }
+        void UnregisterAll();
 
     }
 }
